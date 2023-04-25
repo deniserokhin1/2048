@@ -3,7 +3,6 @@ export class Tile {
         this.tileElement = document.createElement("div");
         this.tileElement.classList.add("tile");
         this.setValue(Math.random() > 0.5 ? 2 : 4);
-        this.tileElement.textContent = this.value;
         gridElement.append(this.tileElement);
     }
 
@@ -24,4 +23,24 @@ export class Tile {
             `${bgLightness < 50 ? 90 : 10}%`
         );
     }
+
+    removeFromDom() {
+        this.tileElement.remove();
+    }
+
+    waitForTransitionEnd() {
+        return new Promise((resolve) => {
+            this.tileElement.addEventListener("transitionend", resolve, {
+                once: true,
+            });
+        });
+    }
+
+    waitForAnimationEnd() {
+        return new Promise((resolve) => {
+            this.tileElement.addEventListener("animationend", resolve, {
+                once: true,
+            });
+        });
+    }   
 }
