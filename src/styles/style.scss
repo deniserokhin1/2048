@@ -19,14 +19,8 @@ body {
     --font-size: 30vmin;
     position: relative;
     display: grid;
-    grid-template-columns: repeat(
-        var(--cell-count),
-        calc(var(--cell-size) / var(--cell-count))
-    );
-    grid-template-rows: repeat(
-        var(--cell-count),
-        calc(var(--cell-size) / var(--cell-count))
-    );
+    grid-template-columns: repeat(var(--cell-count), calc(var(--cell-size) / var(--cell-count)));
+    grid-template-rows: repeat(var(--cell-count), calc(var(--cell-size) / var(--cell-count)));
     gap: calc(var(--cell-gap) / var(--cell-count));
     border-radius: 1vmin;
 }
@@ -34,27 +28,18 @@ body {
 .cell {
     background-color: #444;
     border-radius: calc(4vmin / var(--cell-count));
+    box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.2), inset -2px -2px 2px rgba(2, 3, 19, 0.2);
 }
 
 .tile {
     position: absolute;
     top: calc(
         var(--y) *
-            (
-                calc(
-                    var(--cell-size) / var(--cell-count) + var(--cell-gap) /
-                        var(--cell-count)
-                )
-            )
+            (calc(var(--cell-size) / var(--cell-count) + var(--cell-gap) / var(--cell-count)))
     );
     left: calc(
         var(--x) *
-            (
-                calc(
-                    var(--cell-size) / var(--cell-count) + var(--cell-gap) /
-                        var(--cell-count)
-                )
-            )
+            (calc(var(--cell-size) / var(--cell-count) + var(--cell-gap) / var(--cell-count)))
     );
     display: flex;
     justify-content: center;
