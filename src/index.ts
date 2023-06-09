@@ -19,11 +19,10 @@ function setupInputOnce() {
     window.addEventListener('keydown', handleInput, { once: true })
 }
 
-hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 50 })
+hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 10 })
 hammer.on('swipe', handleInput)
 
 async function handleInput(e: KeyboardEvent | typeof Input) {
-    if (!(e instanceof KeyboardEvent)) console.log('e.direction:', e.direction)
     switch (e instanceof KeyboardEvent ? e.key : e.direction) {
         case 'ArrowUp':
         case 8:
