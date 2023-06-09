@@ -6,28 +6,33 @@ import Hammer from 'hammerjs'
 import { Input } from 'hammerjs'
 
 const gameBoard = document.getElementById('game-board')
+const body = document.querySelector('body')
 
-const hammer = new Hammer(gameBoard as HTMLElement) as HammerManager & typeof Input
+const hammer = new Hammer(body as HTMLElement) as HammerManager & typeof Input
 
-const grid = new Grid(gameBoard as HTMLElement, 4)
-grid.getRandomEmptyCell().linkTile(new Tile(gameBoard as HTMLElement))
-grid.getRandomEmptyCell().linkTile(new Tile(gameBoard as HTMLElement))
-
-setupInputOnce()
+hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 5 })
+hammer.on('swipe', handleInput)
 
 function setupInputOnce() {
     window.addEventListener('keydown', handleInput, { once: true })
 }
 
-hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 10 })
-hammer.on('swipe', handleInput)
+setupInputOnce()
+let swipeHandled = false
+
+const grid = new Grid(gameBoard as HTMLElement, 4)
+grid.getRandomEmptyCell().linkTile(new Tile(gameBoard as HTMLElement))
+grid.getRandomEmptyCell().linkTile(new Tile(gameBoard as HTMLElement))
 
 async function handleInput(e: KeyboardEvent | typeof Input) {
+    if (swipeHandled) return
+    swipeHandled = true
     switch (e instanceof KeyboardEvent ? e.key : e.direction) {
         case 'ArrowUp':
         case 8:
             if (!canMoveUp()) {
                 setupInputOnce()
+                swipeHandled = false
                 return
             }
             await moveUp()
@@ -37,6 +42,7 @@ async function handleInput(e: KeyboardEvent | typeof Input) {
         case 16:
             if (!canMoveDown()) {
                 setupInputOnce()
+                swipeHandled = false
                 return
             }
             await moveDown()
@@ -46,6 +52,7 @@ async function handleInput(e: KeyboardEvent | typeof Input) {
         case 2:
             if (!canMoveLeft()) {
                 setupInputOnce()
+                swipeHandled = false
                 return
             }
             await moveLeft()
@@ -55,6 +62,7 @@ async function handleInput(e: KeyboardEvent | typeof Input) {
         case 4:
             if (!canMoveRight()) {
                 setupInputOnce()
+                swipeHandled = false
                 return
             }
             await moveRight()
@@ -62,6 +70,7 @@ async function handleInput(e: KeyboardEvent | typeof Input) {
 
         default:
             setupInputOnce()
+            swipeHandled = false
             return
     }
 
@@ -76,6 +85,7 @@ async function handleInput(e: KeyboardEvent | typeof Input) {
     }
 
     setupInputOnce()
+    swipeHandled = false
 }
 
 async function moveUp() {

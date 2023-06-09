@@ -54,7 +54,7 @@ body {
     background-color: hsl(25, 60%, var(--bg-lightness));
     color: hsl(20, 25%, var(--text-lightness));
     animation: show 300ms ease-in-out;
-    transition: all 300ms ease-in-out;
+    transition: all 1000ms ease-in-out;
     will-change: transform;
 }
 
