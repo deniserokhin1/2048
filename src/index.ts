@@ -1,9 +1,13 @@
+import './styles/style.scss'
 import { Cell } from 'cell'
 import { Grid } from './grid'
 import { Tile } from './tile'
-import './styles/style.scss'
+import Hammer from 'hammerjs'
+import { Input } from 'hammerjs'
 
 const gameBoard = document.getElementById('game-board')
+
+const hammer = new Hammer(gameBoard as HTMLElement) as HammerManager & typeof Input
 
 const grid = new Grid(gameBoard as HTMLElement, 4)
 grid.getRandomEmptyCell().linkTile(new Tile(gameBoard as HTMLElement))
@@ -15,9 +19,14 @@ function setupInputOnce() {
     window.addEventListener('keydown', handleInput, { once: true })
 }
 
-async function handleInput(e: KeyboardEvent) {
-    switch (e.key) {
+hammer.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 50 })
+hammer.on('swipe', handleInput)
+
+async function handleInput(e: KeyboardEvent | typeof Input) {
+    if (!(e instanceof KeyboardEvent)) console.log('e.direction:', e.direction)
+    switch (e instanceof KeyboardEvent ? e.key : e.direction) {
         case 'ArrowUp':
+        case 8:
             if (!canMoveUp()) {
                 setupInputOnce()
                 return
@@ -26,6 +35,7 @@ async function handleInput(e: KeyboardEvent) {
             break
 
         case 'ArrowDown':
+        case 16:
             if (!canMoveDown()) {
                 setupInputOnce()
                 return
@@ -34,6 +44,7 @@ async function handleInput(e: KeyboardEvent) {
             break
 
         case 'ArrowLeft':
+        case 2:
             if (!canMoveLeft()) {
                 setupInputOnce()
                 return
@@ -42,6 +53,7 @@ async function handleInput(e: KeyboardEvent) {
             break
 
         case 'ArrowRight':
+        case 4:
             if (!canMoveRight()) {
                 setupInputOnce()
                 return
