@@ -17,6 +17,8 @@ export class Grid {
 
         this.cellsGroupedByColumn = this.cellsGroupeByColumn()
 
+        console.log('this.cellsGroupedByColumn:', this.cellsGroupedByColumn)
+
         this.cellsGroupedByReversedColumn = this.cellsGroupedByColumn.map((column) =>
             [...column].reverse()
         )

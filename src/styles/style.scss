@@ -29,7 +29,6 @@ body {
 .cell {
     background-color: #444;
     border-radius: calc(4vmin / var(--cell-count));
-    box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.2), inset -2px -2px 2px rgba(2, 3, 19, 0.2);
 }
 
 .tile {
@@ -54,7 +53,7 @@ body {
     background-color: hsl(25, 60%, var(--bg-lightness));
     color: hsl(20, 25%, var(--text-lightness));
     animation: show 300ms ease-in-out;
-    transition: all 1000ms ease-in-out;
+    transition: all 300ms ease-in-out;
     will-change: transform;
 }
 
